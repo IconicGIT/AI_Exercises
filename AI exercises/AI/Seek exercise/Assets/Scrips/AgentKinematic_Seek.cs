@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class AgentKinematic_Seek : MonoBehaviour
 {
+    enum MovementMode
+    {
+        SEEK = 0,
+        FLEE = 1
+
+    }
+
     [SerializeField]
     GameObject target;
 
@@ -16,16 +23,11 @@ public class AgentKinematic_Seek : MonoBehaviour
     [SerializeField]
     float turnSpeed;
 
-    
-    enum MovementMode
-    {
-        SEEK = 0,
-        FLEE = 1
-    
-    }
-
     [SerializeField]
     MovementMode movementMode;
+    
+    
+
 
     // Start is called before the first frame update
     void Start()
@@ -41,16 +43,14 @@ public class AgentKinematic_Seek : MonoBehaviour
         float angle = 0;
         float distance = Vector3.Distance(target.transform.position, transform.position);
 
-
+        direction = target.transform.position - transform.position;
+        direction.y = 0f;    // (x, z): position in the floor
 
         switch (movementMode)
         {
             case MovementMode.SEEK:
 
                 // Seek
-                direction = target.transform.position - transform.position;
-                direction.y = 0f;    // (x, z): position in the floor
-
                 if (distance > minDistance)
                 {
                 movement = direction.normalized * maxVelocity * Time.deltaTime;
@@ -62,12 +62,9 @@ public class AgentKinematic_Seek : MonoBehaviour
             case MovementMode.FLEE:
 
                 // Flee
-                direction = transform.position - target.transform.position;
-
                 movement = direction.normalized * maxVelocity;
 
                 break;
-
 
         }
 
@@ -77,7 +74,6 @@ public class AgentKinematic_Seek : MonoBehaviour
 
         if ((distance > minDistance) || movementMode == MovementMode.FLEE)
         {
-            Debug.Log("true");
             transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime * turnSpeed);
             transform.position += transform.forward.normalized * maxVelocity * Time.deltaTime;
         }
