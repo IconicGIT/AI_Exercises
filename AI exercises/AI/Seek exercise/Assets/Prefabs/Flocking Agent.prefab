@@ -49,10 +49,15 @@ MonoBehaviour:
   cohesion: {x: 0, y: 0, z: 0}
   align: {x: 0, y: 0, z: 0}
   separation: {x: 0, y: 0, z: 0}
-  speed: 20
-  timerRef: 2.2
+  center: {x: 0, y: 0, z: 0}
+  distanceToCenterMultiplier: 0
+  debugPig: 0
+  speed: 100
+  timerRef: 2.28
   timerRefVar: 0
-  randomAdditionalAngle: 51.1
+  randomAdditionalAngle: 180
+  separationMultiplier: 44.2
+  point: {fileID: 8227290814026200098, guid: 5f3e0d8101b9d1b4385eb4d565973aa4, type: 3}
 --- !u!1001 &4293169616673725183
 PrefabInstance:
   m_ObjectHideFlags: 0

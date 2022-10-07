@@ -27,6 +27,10 @@ public class FlockController : MonoBehaviour
     public float minSpeed;
     [Range(0, 20)]
     public float maxSpeed;
+
+    [SerializeField]
+    [Range(0, 0.01f)]
+    float changingValueMultiplier;
     [Range(0, 100)]
     public float neighbourDistance;
 
@@ -36,6 +40,7 @@ public class FlockController : MonoBehaviour
     [SerializeField]
     float spawnRadius;
 
+    float changingValue = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -62,6 +67,9 @@ public class FlockController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        changingValue++;
+        neighbourDistance = (Mathf.Sin(changingValue * changingValueMultiplier) + 1) * 50;
+
+        print("neighbourDistance: " + neighbourDistance);
     }
 }

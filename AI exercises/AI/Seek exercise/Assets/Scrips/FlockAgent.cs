@@ -11,6 +11,15 @@ public class FlockAgent : MonoBehaviour
     public Vector3 align = Vector3.zero;
     public Vector3 separation = Vector3.zero;
 
+    [SerializeField]
+    Vector3 center;
+
+    [SerializeField]
+    float distanceToCenterMultiplier;
+
+    [SerializeField]
+    bool debugPig;
+
     public float speed;
 
     [SerializeField]
@@ -24,10 +33,18 @@ public class FlockAgent : MonoBehaviour
     [SerializeField]
     [Range(0, 180)]
     float randomAdditionalAngle;
+
+    [SerializeField]
+    [Range(0, 200)]
+    float separationMultiplier;
+
+    [SerializeField]
+    GameObject point;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        if (debugPig) point = Instantiate(point);
     }
 
     // Update is called once per frame
@@ -43,11 +60,16 @@ public class FlockAgent : MonoBehaviour
         timer--;
 
 
+        if (debugPig)
+        {
+            Debug.DrawLine(transform.position, point.transform.position, Color.magenta);
 
-        Debug.DrawRay(transform.position, direction, Color.white);
-        Debug.DrawRay(transform.position, cohesion, Color.red);
-        Debug.DrawRay(transform.position, align, Color.green);
-        Debug.DrawRay(transform.position, separation, Color.blue);
+            Debug.DrawRay(transform.position, direction, Color.white);
+            Debug.DrawRay(transform.position, cohesion, Color.red);
+            Debug.DrawRay(transform.position, align, Color.green);
+            Debug.DrawRay(transform.position, separation, Color.blue);
+        }
+
     }
 
    public void UpdateFlock()
@@ -58,7 +80,7 @@ public class FlockAgent : MonoBehaviour
 
 
         int num = 0;
-        Debug.Log("me: " + this);
+        //Debug.Log("me: " + this);
         foreach (GameObject go in myManager.allAgents)
         {
             if (go != this.gameObject)
@@ -73,7 +95,7 @@ public class FlockAgent : MonoBehaviour
 
                     align += go.GetComponent<FlockAgent>().direction;
 
-                    separation += (transform.position - go.transform.position) / (distance * distance);
+                    separation -= (transform.position - go.transform.position) / (distance);
                     num++;
                 }
 
@@ -90,13 +112,24 @@ public class FlockAgent : MonoBehaviour
 
             cohesion = (cohesion / num - transform.position).normalized * speed;
 
+            point.transform.position = cohesion;
 
         }
 
         float randomAngle = Random.Range(-randomAdditionalAngle, randomAdditionalAngle);
         Vector3 randomVec = new Vector3(Mathf.Cos(randomAngle * Mathf.Deg2Rad), 0, Mathf.Sin(randomAngle * Mathf.Deg2Rad));
-        direction = ((cohesion + align + separation).normalized + randomVec) * speed;
-        print("me: " + this + " cohesion:" + cohesion + " align: " + align + " separation: " + separation);
+        Vector3 vectorToCenter = center - transform.position;
+
+        if (debugPig) Debug.DrawRay(transform.position, vectorToCenter.normalized * distanceToCenterMultiplier, Color.black);
+
+        direction = (
+            (cohesion + align + separation * separationMultiplier).normalized +
+            randomVec ) 
+            * speed 
+            + vectorToCenter.normalized * distanceToCenterMultiplier;
+
+        //print("me: " + this + " cohesion:" + cohesion + " align: " + align + " separation: " + separation);
+        //print("vector to center: " + vectorToCenter);
 
         transform.rotation = Quaternion.Slerp(transform.rotation,
                                           Quaternion.LookRotation(direction),
