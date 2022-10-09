@@ -31,7 +31,9 @@ public class FlockController : MonoBehaviour
     [SerializeField]
     [Range(0, 0.01f)]
     float changingValueMultiplier;
-    [Range(0, 100)]
+
+
+    [Range(0, 50)]
     public float neighbourDistance;
 
     [Range(0, 20)]
@@ -68,7 +70,7 @@ public class FlockController : MonoBehaviour
     void Update()
     {
         changingValue++;
-        neighbourDistance = (Mathf.Sin(changingValue * changingValueMultiplier) + 1) * 50;
+        neighbourDistance = (Mathf.Sin(changingValue * changingValueMultiplier) + 1) * 25;
 
         print("neighbourDistance: " + neighbourDistance);
     }
