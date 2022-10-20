@@ -135,7 +135,7 @@ public class AgentTarget : MonoBehaviour
     {
         Func<GameObject, float> distance = (hs) => Vector3.Distance(target.transform.position, hs.transform.position);
 
-        GameObject hidingSpot = hidingSpots.Select(ho => (distance(ho), ho)).ElementAt(UnityEngine.Random.Range(0, hidingSpots.Length - 1)).Item2;
+        GameObject hidingSpot = hidingSpots.Select(ho => (distance(ho), ho)).Min()/*ElementAt(UnityEngine.Random.Range(0, hidingSpots.Length - 1))*/.Item2;
 
 
         Vector3 dir = hidingSpot.transform.position - target.transform.position * 2;
@@ -150,11 +150,11 @@ public class AgentTarget : MonoBehaviour
         RaycastHit info;
         hidingSpot.GetComponent<Collider>().Raycast(backRay, out info, 50f);
 
-        Vector3 destination = hidingSpot.transform.position + info.point + dir.normalized;
+        Vector3 destination = hidingSpot.transform.position - info.point + dir.normalized;
         destination.y = 0;
         Seek(destination);
-        print("me.destination: " + me.destination);
-        print("destination: " + destination);
+        //print("me.destination: " + me.destination);
+        //print("destination: " + destination);
         //print("hidingSpot: " + hidingSpot);
         //print("info.point + dir.normalized: " + " " + info.point + " " + dir.normalized + " " + (info.point + dir.normalized));
 
@@ -211,10 +211,12 @@ public class AgentTarget : MonoBehaviour
 
             case MovementMode.HIDE:
 
-                if (Timer())
-                {
-                    Hide();
-                }
+                //if (Timer())
+                //{
+                   
+                //}
+
+                Hide();
 
                 if (debugHide)
                 {
