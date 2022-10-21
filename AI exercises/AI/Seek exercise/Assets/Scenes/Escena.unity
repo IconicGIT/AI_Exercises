@@ -219,7 +219,7 @@ GameObject:
   - component: {fileID: 382256889}
   m_Layer: 0
   m_Name: Treasure
-  m_TagString: Untagged
+  m_TagString: Treasure
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1045,6 +1045,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 859428156}
   floor: {fileID: 1718742844}
+  hidingSpots: []
 --- !u!195 &1867897471
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1080,18 +1081,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxTasksPerTick: 1000
-  behavior: {fileID: 11400000, guid: 48b211b279e8ec44abe4042e6a7c9a76, type: 2}
+  behavior: {fileID: 11400000, guid: 850d7e5f3b4183543a1587ae473bbe69, type: 2}
   paused: 0
   restartWhenFinished: 0
   blackboard:
     intParams: 
     intParamsNames: []
     intParamsLostDefaultValue: 
-    boolParams: 
-    boolParamsNames: []
+    boolParams: 00
+    boolParamsNames:
+    - active
     boolParamsLostDefaultValue: 
-    floatParams: []
-    floatParamsNames: []
+    floatParams:
+    - 2
+    floatParamsNames:
+    - distance
     floatParamsLostDefaultValue: 
     stringParams: []
     stringParamsNames: []
@@ -1102,9 +1106,11 @@ MonoBehaviour:
     objectParams:
     - {fileID: 382256887}
     - {fileID: 1718742843}
+    - {fileID: 1867897468}
     objectParamsNames:
     - target
     - floor
+    - this
     objectParamsLostDefaultValue: 
     layerMaskParams: []
     layerMaskParamsNames: []
@@ -1115,9 +1121,9 @@ MonoBehaviour:
     vector2ParamsNames: []
     vector2ParamsLostDefaultValue: 
     vector3Params:
-    - {x: 0, y: 0, z: 0}
+    - {x: 3, y: 3, z: 6}
     vector3ParamsNames:
-    - target
+    - hide
     vector3ParamsLostDefaultValue: 
     vector4Params: []
     vector4ParamsNames: []

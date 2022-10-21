@@ -11,6 +11,7 @@ public class Moves : MonoBehaviour
 {
     public GameObject target;
     public Collider floor;
+    [SerializeField]
     GameObject[] hidingSpots;
     NavMeshAgent agent;
 
@@ -144,6 +145,7 @@ public class Moves : MonoBehaviour
         float distance = 250.0f;
         hideCol.Raycast(backRay, out info, distance);
 
+        print("hide pos: " + (info.point + chosenDir.normalized));
 
        return (info.point + chosenDir.normalized);
 

@@ -5,8 +5,6 @@ using Pada1.BBCore.Framework;
 
 [Condition("MyConditions/Is Cop Near?")]
 [Help("Checks whether Cop is near the Treasure.")]
-
-[Action("MyActions/ToSteal")]
 public class IsCopNear : ConditionBase
 {
     public override bool Check()
